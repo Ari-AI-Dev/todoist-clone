@@ -1,14 +1,22 @@
-# Todoist Clone
+# 📝 Todoist Clone
 
-A modern todo application built with React, Convex, and Tailwind CSS.
+A modern, feature-rich todo application that replicates the authentic Todoist experience using React, Convex, and Tailwind CSS.
 
-## Features
+![Todoist Clone Preview](https://img.shields.io/badge/Status-Ready%20for%20Development-brightgreen)
+![React](https://img.shields.io/badge/React-18.0-blue)
+![Convex](https://img.shields.io/badge/Convex-Real--time-purple)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38bdf8)
 
-- ✅ Add new todos
-- ✅ Mark todos as complete/incomplete
-- ✅ Delete todos
-- ✅ Real-time updates with Convex
-- ✅ Beautiful UI with Tailwind CSS
+## ✨ Features
+
+- 🎯 **Authentic Todoist UI** - Pixel-perfect recreation of Todoist's interface
+- ⚡ **Real-time Updates** - Instant synchronization across all sessions
+- 📱 **Responsive Design** - Works perfectly on desktop and mobile
+- 🗂️ **Task Organization** - Collapsible sections, overdue tasks, and completion tracking
+- ➕ **Smart Task Creation** - Modal-based task entry with priority and reminders
+- ✅ **Complete CRUD Operations** - Add, edit, toggle, and delete tasks
+- 🎨 **Modern Styling** - Clean, professional design with Tailwind CSS
+- 🔄 **Real-time Sync** - Powered by Convex for instant data updates
 
 ## Setup Instructions
 
