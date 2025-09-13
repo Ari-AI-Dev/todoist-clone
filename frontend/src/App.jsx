@@ -133,96 +133,204 @@ function App() {
 
           {/* Add Task Modal */}
           {showAddTask && (
-            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 backdrop-blur-sm" onClick={handleCancel}>
-              <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                {/* Header with task count */}
-                <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <div className="w-4 h-4 rounded-full border border-gray-300 mr-2"></div>
-                      {pendingTodos.length} tasks
-                    </div>
-                    <button
-                      onClick={handleCancel}
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Main content */}
-                <div className="p-6">
+            <div className="fixed inset-0 bg-white bg-opacity-50 flex items-start justify-center pt-20 z-50" onClick={handleCancel}>
+              <div
+                className="task-card w-[600px] bg-white rounded-[14px] overflow-hidden"
+                style={{
+                  boxShadow: '0 6px 16px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06)'
+                }}
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+              >
+                {/* Card Body */}
+                <div className="card-body" style={{ padding: '24px 24px 16px' }}>
+                  {/* Title Input */}
                   <input
                     type="text"
                     value={taskName}
                     onChange={(e) => setTaskName(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Task name"
-                    className="w-full text-base font-medium text-gray-900 border-none outline-none mb-3 placeholder-gray-500"
+                    className="title w-full border-none outline-none mb-2 focus:shadow-[inset_0_-1px_0_var(--border-muted)]"
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: '600',
+                      lineHeight: '1.3',
+                      color: 'var(--text-primary)'
+                    }}
+                    aria-label="Task name"
                     autoFocus
                   />
+
+                  {/* Description Input */}
                   <input
                     type="text"
                     value={taskDescription}
                     onChange={(e) => setTaskDescription(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Description"
-                    className="w-full text-sm text-gray-600 border-none outline-none mb-6 placeholder-gray-400"
+                    className="desc w-full border-none outline-none focus:shadow-[inset_0_-1px_0_var(--border-muted)]"
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: '400',
+                      lineHeight: '1.4',
+                      color: 'var(--text-description)',
+                      marginBottom: '16px'
+                    }}
+                    aria-label="Description"
                   />
 
-                  {/* Action buttons */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <button className="flex items-center text-sm text-gray-700 bg-green-50 border border-green-200 rounded-md px-3 py-1.5 hover:bg-green-100 transition-colors">
-                        <span className="text-green-600 mr-1.5">📅</span>
-                        Today
-                        <svg className="w-3 h-3 ml-1.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
+                  {/* Chips Row */}
+                  <div className="chip-row flex items-center gap-2 mb-3">
+                    {/* Today Chip (Selected) */}
+                    <button
+                      className="chip chip--today inline-flex items-center gap-1.5 rounded-full border"
+                      style={{
+                        height: '28px',
+                        padding: '0 12px',
+                        backgroundColor: 'var(--chip-green-bg)',
+                        borderColor: 'var(--border-muted)',
+                        color: 'var(--chip-green)',
+                        fontSize: '13px',
+                        fontWeight: '500'
+                      }}
+                      aria-label="Due date: Today. Click to change"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                      </svg>
+                      <span>Today</span>
+                      <button
+                        className="chip-close opacity-70 hover:opacity-100"
+                        style={{ fontSize: '12px' }}
+                        aria-label="Remove due date"
+                      >
+                        ×
                       </button>
-                      <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-50 transition-colors">
-                        <span className="text-yellow-500 mr-1.5">🏷️</span>
-                        Priority
+                    </button>
+
+                    {/* Priority Chip */}
+                    <button
+                      className="chip inline-flex items-center gap-1.5 rounded-full border bg-white hover:bg-gray-50"
+                      style={{
+                        height: '28px',
+                        padding: '0 12px',
+                        borderColor: 'var(--border-muted)',
+                        color: 'var(--icon-muted)',
+                        fontSize: '13px',
+                        fontWeight: '500'
+                      }}
+                      aria-label="Set priority"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
+                      </svg>
+                      <span style={{ color: 'var(--text-primary)' }}>Priority</span>
+                    </button>
+
+                    {/* Reminders Chip */}
+                    <button
+                      className="chip inline-flex items-center gap-1.5 rounded-full border bg-white hover:bg-gray-50"
+                      style={{
+                        height: '28px',
+                        padding: '0 12px',
+                        borderColor: 'var(--border-muted)',
+                        color: 'var(--icon-muted)',
+                        fontSize: '13px',
+                        fontWeight: '500'
+                      }}
+                      aria-label="Add reminder"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+                      </svg>
+                      <span style={{ color: 'var(--text-primary)' }}>Reminders</span>
+                    </button>
+
+                    {/* Kebab Menu */}
+                    <button
+                      className="kebab flex items-center justify-center hover:bg-gray-50"
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '8px',
+                        color: 'var(--icon-muted)'
+                      }}
+                      aria-label="More options"
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Divider */}
+                  <hr
+                    className="divider border-0 mb-3"
+                    style={{
+                      height: '1px',
+                      backgroundColor: 'var(--border-muted)'
+                    }}
+                  />
+
+                  {/* Footer */}
+                  <div className="footer flex items-center justify-between">
+                    {/* Inbox Dropdown */}
+                    <button
+                      className="dropdown inline-flex items-center gap-1.5 hover:bg-gray-50 rounded"
+                      style={{
+                        height: '28px',
+                        padding: '0 8px',
+                        color: 'var(--icon-muted)',
+                        fontSize: '13px'
+                      }}
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                      aria-label="Project"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                      </svg>
+                      <span style={{ color: 'var(--text-primary)' }}>Inbox</span>
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+
+                    {/* Action Buttons */}
+                    <div className="actions flex items-center gap-3">
+                      <button
+                        onClick={handleCancel}
+                        className="btn btn-ghost rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
+                        style={{
+                          backgroundColor: 'var(--button-ghost-bg)',
+                          color: 'var(--button-ghost-text)',
+                          padding: '8px 12px',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          focusRingColor: 'var(--focus-ring)'
+                        }}
+                      >
+                        Cancel
                       </button>
-                      <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-50 transition-colors">
-                        <span className="text-blue-500 mr-1.5">🔔</span>
-                        Reminders
-                      </button>
-                      <button className="text-gray-400 hover:text-gray-600 p-1.5 rounded transition-colors">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                        </svg>
+                      <button
+                        onClick={handleAddTask}
+                        className="btn btn-primary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 hover:opacity-90"
+                        style={{
+                          backgroundColor: 'var(--button-primary-bg)',
+                          color: 'var(--button-primary-text)',
+                          padding: '8px 14px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          boxShadow: '0 1px 0 rgba(0,0,0,0.05)',
+                          focusRingColor: 'var(--focus-ring)'
+                        }}
+                      >
+                        Add task
                       </button>
                     </div>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                  <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-100 transition-colors">
-                    <span className="text-blue-600 mr-1.5">📥</span>
-                    Inbox
-                    <svg className="w-3 h-3 ml-1.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={handleCancel}
-                      className="text-sm text-gray-600 px-4 py-2 hover:bg-gray-100 rounded-md transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleAddTask}
-                      className="text-sm bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors font-medium"
-                    >
-                      Add task
-                    </button>
                   </div>
                 </div>
               </div>

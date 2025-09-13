@@ -1,3 +1,82 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Design tokens for Todoist-style add task modal */
+  --surface: #FFFFFF;
+  --shadow-small: rgba(0,0,0,0.06);
+  --shadow-large: rgba(0,0,0,0.10);
+  --text-primary: #2D2D2D;
+  --text-secondary: #A4A4A4;
+  --text-placeholder: #8B8B8B;
+  --text-description: #3B3B3B;
+  --border-muted: #E9EAEB;
+  --chip-green: #6EB07A;
+  --chip-green-bg: #EDF7F0;
+  --button-primary-bg: #EDA59E;
+  --button-primary-text: #FFFFFF;
+  --button-ghost-bg: #F5F5F5;
+  --button-ghost-text: #2F2F2F;
+  --icon-muted: #8F8F8F;
+  --focus-ring: #3B82F6;
+
+  /* Typography system */
+  font-family: ui-sans-serif, -apple-system, "SF Pro Text", Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Custom styling for exact Todoist look */
+.task-card {
+  background: var(--surface);
+}
+
+.task-card .title::placeholder {
+  color: var(--text-placeholder);
+}
+
+.task-card .desc::placeholder {
+  color: var(--text-secondary);
+}
+
+.chip {
+  transition: background-color 0.15s ease;
+}
+
+.chip:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.chip--today:hover {
+  background-color: var(--chip-green-bg) !important;
+  opacity: 0.95;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.kebab:hover {
+  background-color: var(--button-ghost-bg);
+}
+
+.dropdown:hover {
+  background-color: var(--button-ghost-bg);
+}
+
+/* Ensure proper focus states */
+.title:focus,
+.desc:focus {
+  box-shadow: inset 0 -1px 0 var(--border-muted);
+}
+
+.btn-ghost:hover {
+  background-color: rgba(245, 245, 245, 0.8) !important;
+}
+
+.btn-primary:hover {
+  background-color: #E5938B !important;
+}
+
+.btn-primary:active {
+  background-color: #DC857D !important;
+}
