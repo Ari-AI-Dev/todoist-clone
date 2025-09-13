@@ -33,6 +33,14 @@ function App() {
     setShowAddTask(false)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      handleAddTask()
+    } else if (e.key === 'Escape') {
+      handleCancel()
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto bg-white min-h-screen">
@@ -125,63 +133,97 @@ function App() {
 
           {/* Add Task Modal */}
           {showAddTask && (
-            <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white shadow-sm">
-              <input
-                type="text"
-                value={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
-                placeholder="Task name"
-                className="w-full text-sm font-medium border-none outline-none mb-2"
-                autoFocus
-              />
-              <input
-                type="text"
-                value={taskDescription}
-                onChange={(e) => setTaskDescription(e.target.value)}
-                placeholder="Description"
-                className="w-full text-xs text-gray-500 border-none outline-none mb-4"
-              />
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <button className="flex items-center text-xs text-gray-600 bg-green-50 border border-green-200 rounded px-2 py-1">
-                    📅 Today
-                    <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                  <button className="flex items-center text-xs text-gray-600 border border-gray-200 rounded px-2 py-1">
-                    🏷️ Priority
-                  </button>
-                  <button className="flex items-center text-xs text-gray-600 border border-gray-200 rounded px-2 py-1">
-                    🔔 Reminders
-                  </button>
-                  <button className="text-gray-400 p-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                    </svg>
-                  </button>
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 backdrop-blur-sm" onClick={handleCancel}>
+              <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                {/* Header with task count */}
+                <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <div className="w-4 h-4 rounded-full border border-gray-300 mr-2"></div>
+                      {pendingTodos.length} tasks
+                    </div>
+                    <button
+                      onClick={handleCancel}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button className="text-xs text-gray-600 border border-gray-200 rounded px-2 py-1">
-                    📥 Inbox
-                    <svg className="w-3 h-3 ml-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                {/* Main content */}
+                <div className="p-6">
+                  <input
+                    type="text"
+                    value={taskName}
+                    onChange={(e) => setTaskName(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Task name"
+                    className="w-full text-base font-medium text-gray-900 border-none outline-none mb-3 placeholder-gray-500"
+                    autoFocus
+                  />
+                  <input
+                    type="text"
+                    value={taskDescription}
+                    onChange={(e) => setTaskDescription(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Description"
+                    className="w-full text-sm text-gray-600 border-none outline-none mb-6 placeholder-gray-400"
+                  />
+
+                  {/* Action buttons */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <button className="flex items-center text-sm text-gray-700 bg-green-50 border border-green-200 rounded-md px-3 py-1.5 hover:bg-green-100 transition-colors">
+                        <span className="text-green-600 mr-1.5">📅</span>
+                        Today
+                        <svg className="w-3 h-3 ml-1.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-50 transition-colors">
+                        <span className="text-yellow-500 mr-1.5">🏷️</span>
+                        Priority
+                      </button>
+                      <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-50 transition-colors">
+                        <span className="text-blue-500 mr-1.5">🔔</span>
+                        Reminders
+                      </button>
+                      <button className="text-gray-400 hover:text-gray-600 p-1.5 rounded transition-colors">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                  <button className="flex items-center text-sm text-gray-700 border border-gray-200 rounded-md px-3 py-1.5 hover:bg-gray-100 transition-colors">
+                    <span className="text-blue-600 mr-1.5">📥</span>
+                    Inbox
+                    <svg className="w-3 h-3 ml-1.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </button>
-                  <button
-                    onClick={handleCancel}
-                    className="text-sm text-gray-600 px-3 py-1 hover:bg-gray-100 rounded"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleAddTask}
-                    className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Add task
-                  </button>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handleCancel}
+                      className="text-sm text-gray-600 px-4 py-2 hover:bg-gray-100 rounded-md transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleAddTask}
+                      className="text-sm bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors font-medium"
+                    >
+                      Add task
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
